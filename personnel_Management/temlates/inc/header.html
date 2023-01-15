@@ -3,11 +3,19 @@
     <div class="wraper-headr">
         <div class="wraper-logo">
             <div class="image-logo">
-                <img class="logo" src="{% static 'Management_app/images/logo.png' %}" alt="logo" width=200px/>
+                <a href="{% url 'home' %}">
+                    <img class="logo" src="{% static 'Management_app/images/logo.png' %}" alt="logo" width=200px/>
+                </a>
             </div>
         </div>
         <div class="wraper-menu">
             <nav>
+                <ul class="list-menu">
+                    <li class="menu"><a href="{% url 'home' %}">Главная</a></li>
+                    <li class="menu"><a href="{% url 'employee' %}">Регистрация сотрудников</a></li>
+                    <li class="menu"><a href="{% url 'brigade' %}">Регистрация бригады</a></li>
+                    <li class="menu"><a href="#">Рeгистрация объекта</a></li>        
+                </ul>
 
             </nav>
         </div>

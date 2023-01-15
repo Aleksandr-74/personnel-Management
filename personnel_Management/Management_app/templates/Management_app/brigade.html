@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Регистрация бригады{% endblock %}
+{% block content %}
+<main>
+    <div class="wraper-form">
+        <form action="" method="POST">
+            {% csrf_token %}
+                {{ form }}
+            <button  type="submit" class="button_form submit">Отправить</button>
+        </form>
+    </div>
+</main>    
+
+    
+{% endblock %}

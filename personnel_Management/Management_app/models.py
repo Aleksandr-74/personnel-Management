@@ -2,10 +2,10 @@ from django.db import models
 
 
 class Role(models.Model):
-    name_role = models.CharField(max_length=150, db_index=True, verbose_name='Роль')
+    role = models.CharField(max_length=150, db_index=True, verbose_name='Роль')
 
     def __str__(self):
-        return self.name_role
+        return self.role
 
     class Meta:
         verbose_name = "Роль"
@@ -13,7 +13,7 @@ class Role(models.Model):
 
 
 class Employee(models.Model):
-    id_role = models.ForeignKey('Role', on_delete=models.PROTECT, verbose_name='Роль')
+    roles = models.ForeignKey('Role', on_delete=models.PROTECT, verbose_name='Роль')
     name_employee = models.CharField(max_length=150, db_index=True, verbose_name='Имя сотрудника')
 
     def __str__(self):
@@ -24,14 +24,23 @@ class Employee(models.Model):
 
 
 class Brigade(models.Model):
-    id_employee = models.ForeignKey('Employee', on_delete=models.PROTECT, verbose_name='Сотрудник')
+    сiti = models.CharField(max_length=150, verbose_name='Город')
+    employees = models.ManyToManyField("Employee", verbose_name="Сотрудники")
 
     def __str__(self):
-        return self.id_employee
+        return self.Citi
 
     class Meta:
         verbose_name = "Сотрудник"
         verbose_name_plural = "Сотрудники"
+
+
+# class BrigadeEmployee(models.Model):
+#     employee_id = models.ForeignKey("Employee", on_delete=models.PROTECT, verbose_name='Сотрудник')
+#     brigade_id = models.ForeignKey("Brigade", on_delete=models.PROTECT)
+
+
+"""Объект"""
 
 
 class Status(models.Model):
