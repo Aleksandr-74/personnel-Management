@@ -4,6 +4,7 @@ from Management_app.views import *
 
 urlpatterns = [
     path('', home, name='home'),
-    path('employee', FormEmployee, name='employee'),
-    path('brigade', FormBrigade, name='brigade')
+    path('employee', FormEmployee, name='worker'),
+    path('brigade', FormBrigade, name='brigade'),
+    # path("brigade/in>", InfoBrigade, name = 'InfoBrigade')
 ]

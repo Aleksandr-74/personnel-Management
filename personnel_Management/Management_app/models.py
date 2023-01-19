@@ -11,13 +11,12 @@ class Role(models.Model):
         verbose_name = "Роль"
         verbose_name_plural = "Роли"
 
-
-class Employee(models.Model):
+class Worker(models.Model):
     roles = models.ForeignKey('Role', on_delete=models.PROTECT, verbose_name='Роль')
-    name_employee = models.CharField(max_length=150, db_index=True, verbose_name='Имя сотрудника')
+    name_worker = models.CharField(max_length=150, db_index=True, verbose_name='Имя сотрудника')
 
     def __str__(self):
-        return self.name_employee
+        return self.name_worker
 
     class Meta:
         pass
@@ -25,33 +24,25 @@ class Employee(models.Model):
 
 class Brigade(models.Model):
     сiti = models.CharField(max_length=150, verbose_name='Город')
-    employees = models.ManyToManyField("Employee", verbose_name="Сотрудники")
+    foreman = models.ForeignKey("Worker", related_name='forema', on_delete=models.PROTECT, verbose_name="Бригадир")
+    workers = models.ManyToManyField("Worker", related_name='brigades', verbose_name="Сотрудники")
 
     def __str__(self):
-        return self.Citi
+        return self.сiti
 
     class Meta:
         verbose_name = "Сотрудник"
         verbose_name_plural = "Сотрудники"
 
 
-# class BrigadeEmployee(models.Model):
-#     employee_id = models.ForeignKey("Employee", on_delete=models.PROTECT, verbose_name='Сотрудник')
-#     brigade_id = models.ForeignKey("Brigade", on_delete=models.PROTECT)
-
 
 """Объект"""
 
 
-class Status(models.Model):
-    name_staus = models.CharField(max_length=256, verbose_name='Статус')
+class Status(models.TextChoices):
+    """ Статус объекта"""
+    pass
 
-    def __str__(self):
-        return self.name_staus
-
-    class Meta:
-        verbose_name = "Статус"
-        verbose_name_plural = "Статусы"
 
 
 class Object_application(models.Model):

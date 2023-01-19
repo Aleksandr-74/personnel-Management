@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Главная{% endblock %}
 {% block content %}
-    
+<h3>Сотрудники</h3>
+<ul>
+    {% for worker in workers%}
+    <li>{{ worker.roles }}: {{ worker }}</li>
+    {%endfor%}
+</ul>
+
+<h3>Бригады</h3>
+<ul>
+{% for brigade in brigades %}
+    <li><a href="#">{{ brigade.id }}: {{ brigade.сiti }}: {{ brigade.foreman }}</a></li>
+{% endfor %}
+</ul>
+
 {% endblock %}
