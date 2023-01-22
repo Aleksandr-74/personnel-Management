@@ -4,17 +4,17 @@
         <div class="wraper-logo">
             <div class="image-logo">
                 <a href="{% url 'home' %}">
-                    <img class="logo" src="{% static 'Management_app/images/logo.png' %}" alt="logo" width=200px/>
+<!--                    <img class="logo" src="{% static 'Management_app/images/logo.png' %}" alt="logo" width=200px/>-->
                 </a>
             </div>
         </div>
         <div class="wraper-menu">
             <nav>
-                <ul class="list-menu">
-                    <li class="menu"><a href="{% url 'home' %}">Главная</a></li>
-                    <li class="menu"><a href="{% url 'worker' %}">Регистрация сотрудников</a></li>
-                    <li class="menu"><a href="{% url 'brigade' %}">Регистрация бригады</a></li>
-                    <li class="menu"><a href="#">Рeгистрация объекта</a></li>        
+                <ul class="list-menu nav nav-tabs">
+                    <li class="menu nav-item" ><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'workers' %}">Регистрация сотрудников</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'brigades' %}">Регистрация бригады</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'request' %}">Рeгистрация объекта</a></li>
                 </ul>
 
             </nav>
