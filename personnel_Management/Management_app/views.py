@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse, resolve
 from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+
 from Management_app.forms import UserBrigade, UserWorker, UserRequest
 from Management_app.models import Worker, Brigade
 
@@ -16,7 +16,7 @@ def home(request):
     return render(request, "Management_app/home.html", context=context)
 
 
-def FormWorker(request):
+def WorkerFormView(request):
     form = UserWorker
     context = {
         "title": "Регистрация сотрудника",
@@ -28,12 +28,13 @@ def FormWorker(request):
             name_worker = form.cleaned_data["name_worker"]
             roles = form.cleaned_data["roles"]
             print(roles, name_worker)
-            Worker.objects.create(roles_id=roles, name_worker=name_worker)
-            return reverse('home')
+            Worker.objects.create(roles=roles, name_worker=name_worker)
+    #         return reverse('home')
     return render(request, "Management_app/content.html", context=context)
 
 
-def FormBrigade(request):
+
+def BrigadeFormView(request):
     form = UserBrigade
     context = {
         "title": "Регистрация бригады",
@@ -43,12 +44,13 @@ def FormBrigade(request):
         form = UserBrigade(request.POST)
         if form.is_valid():
             citi = form.cleaned_data["citi"]
-            foreman_id = int(form.cleaned_data["foreman"])
-            worker_id = int(form.cleaned_data["mechanic"])
-            worker = Worker.objects.get(pk=worker_id)
-            brigade = Brigade.objects.create(сiti=citi, foreman_id=foreman_id)
+            foreman = form.cleaned_data["foreman"]
+            worker = form.cleaned_data["mechanic"]
+            foreman = Worker.objects.get(name_worker=foreman)
+            worker = Worker.objects.get(name_worker=worker)
+            brigade = Brigade.objects.create(сiti=citi, foreman=foreman)
             brigade.workers.add(worker)
-            return reverse('home')
+            # return reverse('home')
     return render(request, "Management_app/brigade.html", context=context)
 
 
@@ -67,7 +69,28 @@ def InfoWorker(request, worker_id):
     return HttpResponse(f"{worker}")
 
 
-
 def InfoBrigade(request, brigade_id):
     brigade = get_object_or_404(Brigade, pk=brigade_id)
-    return HttpResponse(f"{brigade}")
+    workers = [i for i in Brigade.objects.get(pk=brigade_id).workers.all()]
+    data = {
+        'citi': brigade.сiti,
+        'foreman': brigade.foreman,
+    }
+
+    if len(workers) > 1:
+        for worker in workers:
+            data.update({'mechanic', worker.name_worker})
+    else:
+        data.update({'mechanic': workers[0]})
+
+    form = UserBrigade(data)
+
+    context = {
+        'form': form,
+        'brigade': brigade,
+        'workers': workers,
+    }
+
+
+    return render(request, "Management_app/card_brigade.html", context=context)
+

@@ -5,19 +5,14 @@ from django.urls import reverse
 from django.db import models
 
 
-class Role(models.Model):
+class Role(models.TextChoices):
+    A = "selected", '-----'
+    FOREMAN = 'Мастер', 'Мастер'
+    MECHANIC = 'Механик', 'Механик'
 
-    role = models.CharField(max_length=150, db_index=True, verbose_name='Роль')
-
-    def __str__(self):
-        return self.role
-
-    class Meta:
-        verbose_name = "Роль"
-        verbose_name_plural = "Роли"
 
 class Worker(models.Model):
-    roles = models.ForeignKey('Role', on_delete=models.PROTECT, verbose_name='Роль')
+    roles = models.CharField(max_length=100, choices=Role.choices)
     name_worker = models.CharField(max_length=150, db_index=True, verbose_name='Имя сотрудника')
 
     def __str__(self):
@@ -35,7 +30,7 @@ class Brigade(models.Model):
         max_length=150, verbose_name='Город'
     )
     foreman = models.ForeignKey(
-        to="Worker", related_name='forema',
+        to="Worker", related_name='foreman',
         on_delete=models.CASCADE, verbose_name="Бригадир"
     )
     workers = models.ManyToManyField(
@@ -83,7 +78,7 @@ class Object_application(models.Model):
         verbose_name="Время начала работ", null=True, blank=True)
     finishing_time = models.DateTimeField(
         verbose_name="Время окончания работ", null=True, blank=True)
-    brigades = models.ManyToManyField(to="Brigade", through="ObjectBrigade")
+    brigades = models.ManyToManyField(to="Brigade", through="ObjectBrigade", verbose_name="Бригада")
 
     def __str__(self):
         return f"{self.name}, статус: {self.status_work}"

@@ -1,0 +1,14 @@
+<div class="wraper-form">
+        <form action="" method="POST"  class="mb-3 col-6">
+            {% csrf_token %}
+                {% for field in form %}
+                <div class="fieldWrapper mb-3">
+                    {{ field.errors }}
+
+                    {{ field.label_tag }} {{ field }}
+                </div>
+                {% endfor %}
+            <button  type="btn" class="btn btn-primary">Добавить</button>
+            <button  type="submit" class="btn btn-primary">Зарегистрировать</button>
+        </form>
+</div>

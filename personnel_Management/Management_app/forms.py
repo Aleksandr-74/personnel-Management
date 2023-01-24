@@ -1,20 +1,7 @@
 from django import forms
 from django.forms import ModelForm
-from Management_app.models import Status, Role, Worker, Object_application
+from Management_app.models import Status, Role, Worker, Object_application, Brigade
 
-
-class UserRole(forms.Form):
-    """Создания ролей сотрудников"""
-
-    name_role = forms.CharField(label="Роль", widget=forms.TextInput(
-        attrs={
-            'class': 'input_form',
-            'placeholder': 'Роль'
-        }))
-
-    class Meta:
-        model = Role
-        fields = ("name_role")
 
 
 class UserBrigade(forms.Form):
@@ -23,24 +10,26 @@ class UserBrigade(forms.Form):
     citi = forms.CharField(label="Город", widget=forms.TextInput(
         attrs={
             'class': 'form-control'
-        }))
+            }
+    ))
 
-    foreman = forms.ChoiceField(label='Бригадир',
-        choices=tuple(Worker.objects.filter(roles_id=1).values_list("id", "name_worker")),
+    foreman = forms.ModelChoiceField(label='Бригадир',
+        queryset=Worker.objects.filter(roles='Мастер'),
+        widget=forms.Select(
+            attrs={
+                'class': 'form-select'
+                }
+    ))
+
+    mechanic = forms.ModelChoiceField(label='Mexаник', queryset=Worker.objects.all(),
         widget=forms.Select(
             attrs={
                 'class': 'form-select'
             }))
 
-    mechanic = forms.ChoiceField(label='Mexаник',
-        choices=tuple(Worker.objects.all().values_list("pk", "name_worker")),
-        widget=forms.Select(
-            attrs={
-                'class': 'form-select'
-            }))
-
-
-
+    class Meta:
+        model = Brigade
+        fields = ('citi', 'foreman', 'mechanic')
 
 class Object_status(forms.Form):
     """Форма для создания статуса объета"""
@@ -60,12 +49,11 @@ class Object_status(forms.Form):
 class UserWorker(ModelForm):
     """ Регистрация сотрудник в БД"""
 
-    roles = forms.ChoiceField(label='Роль',
-        choices=tuple(Role.objects.all().values_list("id", "role")),
+    roles = forms.ChoiceField(label='Роль', choices=Role.choices,
         widget=forms.Select(
             attrs={
                 'class': 'form-select'
-            }))
+        }))
 
     name_worker = forms.CharField(label='Имя', max_length=256, widget=forms.TextInput(
         attrs={
@@ -75,6 +63,7 @@ class UserWorker(ModelForm):
     class Meta:
         model = Worker
         fields = ('roles', 'name_worker')
+
 
 
 class UserRequest(ModelForm):

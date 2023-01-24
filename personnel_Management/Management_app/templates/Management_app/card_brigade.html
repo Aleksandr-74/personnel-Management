@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <hr>
+    <div>Город : {{ brigade }}</div>
+    <div>Мастер: {{ brigade.foreman }}</div>
+    <div>
+        {% for i in workers %}
+            Механник : {{ i }};
+        {% endfor %}
+    </div>
+    <hr>
+    <h3>Редактировать</h3>
+    {% include "Management_app\inc\BrigadForm.html" %}
+    <hr>
+</main>
+{% endblock %}
