@@ -31,6 +31,7 @@ class UserBrigade(forms.Form):
         model = Brigade
         fields = ('citi', 'foreman', 'mechanic')
 
+
 class Object_status(forms.Form):
     """Форма для создания статуса объета"""
 

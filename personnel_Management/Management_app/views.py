@@ -56,7 +56,6 @@ def BrigadeFormView(request):
 
 def FormObject(request):
     form = UserRequest
-    print(form)
     context = {
         'title': 'Регистрация объекта',
         "form": form
@@ -76,21 +75,16 @@ def InfoBrigade(request, brigade_id):
         'citi': brigade.сiti,
         'foreman': brigade.foreman,
     }
-
     if len(workers) > 1:
         for worker in workers:
             data.update({'mechanic', worker.name_worker})
     else:
         data.update({'mechanic': workers[0]})
-
     form = UserBrigade(data)
-
     context = {
         'form': form,
         'brigade': brigade,
         'workers': workers,
     }
-
-
     return render(request, "Management_app/card_brigade.html", context=context)
 

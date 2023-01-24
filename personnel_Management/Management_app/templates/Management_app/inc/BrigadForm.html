@@ -1,14 +1,33 @@
 <div class="wraper-form">
-        <form action="" method="POST"  class="mb-3 col-6">
-            {% csrf_token %}
-                {% for field in form %}
-                <div class="fieldWrapper mb-3">
-                    {{ field.errors }}
-
-                    {{ field.label_tag }} {{ field }}
-                </div>
-                {% endfor %}
-            <button  type="btn" class="btn btn-primary">Добавить</button>
-            <button  type="submit" class="btn btn-primary">Зарегистрировать</button>
-        </form>
+    <form action="" method="POST"  class="mb-3 col-6">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper mb-3">
+            {{ form.subject.errors }}
+            <label for="{{ form.citi.id_for_label }}">Город:</label>
+            {{ form.citi }}
+        </div>
+        <div class="fieldWrapper mb-3">
+        {{ form.message.errors }}
+            <label for="{{ form.foreman.id_for_label }}">Мастер:</label>
+            {{ form.foreman }}
+        </div>
+        <div class="fieldWrapper mb-3">
+            {{ form.sender.errors }}
+            <label for="{{ form.mechanic.id_for_label }}">Механник</label>
+            {{ form.mechanic }}
+        </div>
+        <a href="" id="add_field" class="btn btn-primary">Добавить</a>
+        <button  type="submit" class="btn btn-primary">Отправить</button>
+    </form>
 </div>
+
+
+
+
+
+
+
+
+
+

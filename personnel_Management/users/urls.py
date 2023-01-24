@@ -1,6 +1,6 @@
 from django.urls import path
 
 urlpatterns = [
-    path('', 'django.contrib.auth.urls'),
+    # path('', 'django.contrib.auth.urls'),
 
 ]

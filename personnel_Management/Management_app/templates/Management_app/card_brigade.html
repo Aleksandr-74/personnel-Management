@@ -3,12 +3,16 @@
 {% block content %}
 <main>
     <hr>
-    <div>Город : {{ brigade }}</div>
-    <div>Мастер: {{ brigade.foreman }}</div>
-    <div>
-        {% for i in workers %}
-            Механник : {{ i }};
-        {% endfor %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <div>Город : {{ brigade }}</div>
+            <div>Мастер: {{ brigade.foreman }}</div>
+            <div>
+                {% for i in workers %}
+                    Механник : {{ i }};
+                {% endfor %}
+            </div>
+        </div>
     </div>
     <hr>
     <h3>Редактировать</h3>
