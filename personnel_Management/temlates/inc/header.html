@@ -1,4 +1,20 @@
 {% load static %}
+<div>
+    <div>
+        <h3>Пользователь: {{ user }}</h3>
+    </div>
+    <div class="hstack gap-3 nav justify-content-end">
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout'%}">Выйти</a>
+        {% else %}
+            <a href="{% url 'login' %}">Войти</a>
+            <div class="vr"></div>
+            <a href="{% url 'register'%}">Зарегистрироватся</a>
+        {% endif %}
+    </div>
+    <hr>
+    <h5>{{ title }}</h5>
+</div>
     <div class="wraper-headr">
         <div class="wraper-logo">
             <div class="image-logo">
