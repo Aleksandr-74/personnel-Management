@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content  %}
+<h1>Регистрация</h1>
+<hr>
+
+<form action="{% url 'register' %}" method="POST" class="mb-3 col-5">
+    {% csrf_token %}
+     <div id="wrapperInput">
+        <div class="fieldWrapper mb-3">
+            {{ form.username.errors }}
+            <label for="{{ form.username.id_for_label }}">Ваш логин:</label>
+            {{ form.username }}
+        </div>
+        <div class="fieldWrapper mb-3">
+        {{ form.password1.errors }}
+            <label for="{{ form.password1.id_for_label }}">Ваш пароль:</label>
+            {{ form.password1 }}
+        </div>
+        <div class="fieldWrapper mb-3" id="fieldSelect">
+            {{ form.password2.errors }}
+            <label for="{{ form.password2.id_for_label }}">Повторите пароль</label>
+            {{ form.password2 }}
+        </div>
+        </div>
+    <button  type="submit" class="btn btn-primary">Отправить</button>
+</form>
+
+{% endblock %}
