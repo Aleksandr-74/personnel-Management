@@ -29,7 +29,7 @@ class UserBrigade(forms.Form):
 
     class Meta:
         model = Brigade
-        fields = ('citi', 'foreman', 'mechanic')
+        fields = '__all__'
 
 
 class Object_status(forms.Form):

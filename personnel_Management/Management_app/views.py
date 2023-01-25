@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
+import json
 from Management_app.forms import UserBrigade, UserWorker, UserRequest
 from Management_app.models import Worker, Brigade
 
@@ -42,10 +43,13 @@ def BrigadeFormView(request):
     }
     if request.method == "POST":
         form = UserBrigade(request.POST)
+        # print(form.r)
         if form.is_valid():
+            # data = form.cleaned_data[" "]
             citi = form.cleaned_data["citi"]
             foreman = form.cleaned_data["foreman"]
             worker = form.cleaned_data["mechanic"]
+            print(worker)
             foreman = Worker.objects.get(name_worker=foreman)
             worker = Worker.objects.get(name_worker=worker)
             brigade = Brigade.objects.create(сiti=citi, foreman=foreman)
@@ -71,6 +75,7 @@ def InfoWorker(request, worker_id):
 def InfoBrigade(request, brigade_id):
     brigade = get_object_or_404(Brigade, pk=brigade_id)
     workers = [i for i in Brigade.objects.get(pk=brigade_id).workers.all()]
+    print(workers)
     data = {
         'citi': brigade.сiti,
         'foreman': brigade.foreman,
@@ -85,6 +90,7 @@ def InfoBrigade(request, brigade_id):
         'form': form,
         'brigade': brigade,
         'workers': workers,
+        'title': 'Информация о бригаде'
     }
     return render(request, "Management_app/card_brigade.html", context=context)
 
