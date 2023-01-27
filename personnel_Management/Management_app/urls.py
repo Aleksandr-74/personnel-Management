@@ -8,5 +8,6 @@ urlpatterns = [
     path('brigades', BrigadeFormView, name='brigades'),
     path('workers/<int:worker_id>/', InfoWorker, name='worker'),
     path('brigades/<int:brigade_id>/', InfoBrigade, name='brigade'),
-    path('request', FormObject, name='request')
+    path('request', FormObject, name='request'),
+    path('api/v1/BrigadesAPI/', BrigadesAPIViews.as_view())
 ]

@@ -26,6 +26,9 @@ class Worker(models.Model):
 
 
 class Brigade(models.Model):
+    def __init__(self, *args):
+        super().__init__(*args)
+
     сiti = models.CharField(
         max_length=150, verbose_name='Город'
     )

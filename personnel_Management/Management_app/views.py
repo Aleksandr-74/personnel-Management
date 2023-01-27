@@ -1,8 +1,17 @@
+from rest_framework import generics
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
+
 from Management_app.forms import UserBrigade, UserWorker, UserRequest
 from Management_app.models import Worker, Brigade
+from Management_app.serializers import WorkerSerializer, BrigadeSerializer
+
+
+class BrigadesAPIViews(generics.ListAPIView):
+    ''' DRF получениу JSON'''
+    queryset = Brigade.objects.all()
+    serializer_class = BrigadeSerializer
 
 
 def home(request):
