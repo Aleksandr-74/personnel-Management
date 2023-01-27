@@ -8,8 +8,9 @@
             <div>Город : {{ brigade }}</div>
             <div>Мастер: {{ brigade.foreman }}</div>
             <div>
+                 Механник :
                 {% for i in workers %}
-                    Механник : {{ i }};
+                    {{ i }};
                 {% endfor %}
             </div>
         </div>

@@ -5,18 +5,18 @@
         {{ form.non_field_errors }}
         <div id="wrapperInput">
         <div class="fieldWrapper mb-3">
-            {{ form.subject.errors }}
+            {{ form.citi.errors }}
             <label for="{{ form.citi.id_for_label }}">Город:</label>
             {{ form.citi }}
         </div>
         <div class="fieldWrapper mb-3">
-        {{ form.message.errors }}
+        {{ form.foreman.errors }}
             <label for="{{ form.foreman.id_for_label }}">Мастер:</label>
             {{ form.foreman }}
         </div>
         <div class="fieldWrapper mb-3" id="fieldSelect">
-            {{ form.sender.errors }}
-            <label for="{{ form.mechanic.id_for_label }}">Механник</label>
+            {{ form.mechanic.errors }}
+                <label for="{{ form.mechanic.id_for_label }}">Механник</label>
             {{ form.mechanic }}
         </div>
         </div>

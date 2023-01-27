@@ -35,7 +35,7 @@ class RegisterForm(UserCreationForm):
 
 
 class AuthorizationForm(AuthenticationForm):
-    '''Форма авторизации пользователей'''
+    """Форма авторизации пользователей"""
 
     username = forms.CharField(widget=forms.TextInput(
         attrs={

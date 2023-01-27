@@ -26,7 +26,8 @@ class Worker(models.Model):
 
 
 class Brigade(models.Model):
-    сiti = models.CharField(
+
+    citi = models.CharField(
         max_length=150, verbose_name='Город'
     )
     foreman = models.ForeignKey(
@@ -39,7 +40,7 @@ class Brigade(models.Model):
     )
 
     def __str__(self):
-        return self.сiti
+        return self.citi
 
     class Meta:
         verbose_name = "Сотрудник"

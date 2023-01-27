@@ -4,6 +4,7 @@ from users.views import Register
 
 urlpatterns = [
     path('', include('django.contrib.auth.urls')),
-    path('regisner/', Register.as_view(), name='register')
+    path('register/', Register.as_view(), name='register'),
+    # path('password_reset/', name='reset')
 
 ]

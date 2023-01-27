@@ -1,8 +1,18 @@
-from django.http import HttpResponse
+from rest_framework import generics
+# from django.http import Response
 from django.shortcuts import render, get_object_or_404
+
 
 from Management_app.forms import UserBrigade, UserWorker, UserRequest
 from Management_app.models import Worker, Brigade
+from Management_app.serializers import WorkerSerializer, BrigadeSerializer
+
+
+class BrigadesAPIList(generics.ListCreateAPIView):
+    serializer_class = BrigadeSerializer
+    queryset = Brigade.objects.all()
+
+
 
 
 def home(request):
@@ -47,10 +57,9 @@ def BrigadeFormView(request):
             citi = form.cleaned_data["citi"]
             foreman = form.cleaned_data["foreman"]
             worker = form.cleaned_data["mechanic"]
-            print(worker)
             foreman = Worker.objects.get(name_worker=foreman)
             worker = Worker.objects.get(name_worker=worker)
-            brigade = Brigade.objects.create(сiti=citi, foreman=foreman)
+            brigade = Brigade.objects.create(citi=citi, foreman=foreman)
             brigade.workers.add(worker)
             # return reverse('home')
 
@@ -74,16 +83,13 @@ def InfoWorker(request, worker_id):
 def InfoBrigade(request, brigade_id):
     brigade = get_object_or_404(Brigade, pk=brigade_id)
     workers = [i for i in Brigade.objects.get(pk=brigade_id).workers.all()]
-    print(workers)
     data = {
-        'citi': brigade.сiti,
+        'citi': brigade.citi,
         'foreman': brigade.foreman,
     }
-    if len(workers) > 1:
-        for worker in workers:
-            data.update({'mechanic', worker.name_worker})
-    else:
-        data.update({'mechanic': workers[0]})
+    for worker in workers:
+        data.update({'mechanic': worker})
+
     form = UserBrigade(data)
     context = {
         'form': form,
