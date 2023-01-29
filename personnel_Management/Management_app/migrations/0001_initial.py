@@ -17,7 +17,11 @@ class Migration(migrations.Migration):
             name='Brigade',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+<<<<<<< HEAD
                 ('citi', models.CharField(max_length=150, verbose_name='Город')),
+=======
+                ('сiti', models.CharField(max_length=150, verbose_name='Город')),
+>>>>>>> origin/authorization
             ],
             options={
                 'verbose_name': 'Сотрудник',
