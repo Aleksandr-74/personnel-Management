@@ -1,21 +1,9 @@
-from rest_framework import generics
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
-
 from Management_app.forms import UserBrigade, UserWorker, UserRequest
 from Management_app.models import Worker, Brigade
-from Management_app.serializers import WorkerSerializer, BrigadeSerializer
 
-
-class BrigadesAPIList(generics.ListCreateAPIView):
-    serializer_class = BrigadeSerializer
-    queryset = Brigade.objects.all()
-
-
-class BrigadeAPI(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = BrigadeSerializer
-    queryset = Brigade.objects.all()
 
 
 
@@ -41,7 +29,7 @@ def WorkerFormView(request):
         if form.is_valid():
             name_worker = form.cleaned_data["name_worker"]
             roles = form.cleaned_data["roles"]
-            # print(roles, name_worker)
+            print(roles, name_worker)
             Worker.objects.create(roles=roles, name_worker=name_worker)
     #         return reverse('home')
     return render(request, "Management_app/content.html", context=context)
@@ -56,13 +44,17 @@ def BrigadeFormView(request):
     }
     if request.method == "POST":
         form = UserBrigade(request.POST)
-        brigade = Brigade.objects.create(
-            citi=form.data.get("citi"),
-            foreman=Worker.objects.get(pk=form.data.get("foreman"))
-            )
-        for worker in form.data.getlist('workers'):
-            worker = Worker.objects.get(pk=worker)
+        if form.is_valid():
+            # data = form.cleaned_data[" "]
+            citi = form.cleaned_data["citi"]
+            foreman = form.cleaned_data["foreman"]
+            worker = form.cleaned_data["mechanic"]
+            print(worker)
+            foreman = Worker.objects.get(name_worker=foreman)
+            worker = Worker.objects.get(name_worker=worker)
+            brigade = Brigade.objects.create(сiti=citi, foreman=foreman)
             brigade.workers.add(worker)
+            # return reverse('home')
 
     return render(request, "Management_app/brigade.html", context=context)
 
@@ -84,22 +76,16 @@ def InfoWorker(request, worker_id):
 def InfoBrigade(request, brigade_id):
     brigade = get_object_or_404(Brigade, pk=brigade_id)
     workers = [i for i in Brigade.objects.get(pk=brigade_id).workers.all()]
+    print(workers)
     data = {
-        'citi': brigade.citi,
+        'citi': brigade.сiti,
         'foreman': brigade.foreman,
-        # 'workers': [workers[0], workers[1]]
-
-
     }
-    # print(workers)
-    for worker in workers:
-        print(worker)
-        data['workers'] = worker
-        print(data)
-
-        # data.update({'workers': worker})
-
-
+    if len(workers) > 1:
+        for worker in workers:
+            data.update({'mechanic', worker.name_worker})
+    else:
+        data.update({'mechanic': workers[0]})
     form = UserBrigade(data)
     context = {
         'form': form,
@@ -107,6 +93,5 @@ def InfoBrigade(request, brigade_id):
         'workers': workers,
         'title': 'Информация о бригаде'
     }
-    print(data)
     return render(request, "Management_app/card_brigade.html", context=context)
 
