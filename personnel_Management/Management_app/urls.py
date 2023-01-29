@@ -8,7 +8,5 @@ urlpatterns = [
     path('brigades', BrigadeFormView, name='brigades'),
     path('workers/<int:worker_id>/', InfoWorker, name='worker'),
     path('brigades/<int:brigade_id>/', InfoBrigade, name='brigade'),
-    path('request', FormObject, name='request'),
-    path('api/v1/brigadesAPI', BrigadesAPIList.as_view()),
-    path('api/v1/brigadesAPI/<int:pk>', BrigadesAPIList.as_view())
+    path('request', FormObject, name='request')
 ]
