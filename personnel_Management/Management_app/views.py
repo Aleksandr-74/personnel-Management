@@ -5,6 +5,8 @@ from Management_app.forms import UserBrigade, UserWorker, UserRequest
 from Management_app.models import Worker, Brigade
 
 
+
+
 def home(request):
     workers = Worker.objects.all()
     brigabes = Brigade.objects.all()

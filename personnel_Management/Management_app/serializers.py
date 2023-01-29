@@ -10,7 +10,6 @@ class WorkerSerializer(serializers.ModelSerializer):
 
 
 class BrigadeSerializer(serializers.ModelSerializer):
-<<<<<<< HEAD
     foreman = serializers.StringRelatedField(many=False)
     workers = WorkerSerializer(many=True)
 
@@ -18,8 +17,3 @@ class BrigadeSerializer(serializers.ModelSerializer):
         model = Brigade
         fields = ('citi', 'foreman', 'workers')
 
-=======
-    class Meta:
-        model = Brigade
-        fields = '__all__'
->>>>>>> origin/authorization
