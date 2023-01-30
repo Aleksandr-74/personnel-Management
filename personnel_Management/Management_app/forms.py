@@ -4,7 +4,7 @@ from Management_app.models import Status, Role, Worker, Object_application, Brig
 
 
 
-class UserBrigade(forms.Form):
+class UserBrigade(ModelForm):
     """ Форма формирования бригады"""
 
     citi = forms.CharField(label="Город", widget=forms.TextInput(
@@ -21,7 +21,7 @@ class UserBrigade(forms.Form):
                 }
     ))
 
-    mechanic = forms.ModelChoiceField(label='Mexаник', queryset=Worker.objects.all(),
+    workers = forms.ModelMultipleChoiceField(label='Mexаник', queryset=Worker.objects.all(),
         widget=forms.Select(
             attrs={
                 'class': 'form-select'
@@ -29,7 +29,7 @@ class UserBrigade(forms.Form):
 
     class Meta:
         model = Brigade
-        fields = '__all__'
+        fields = ('citi', 'foreman', 'workers')
 
 
 class Object_status(forms.Form):

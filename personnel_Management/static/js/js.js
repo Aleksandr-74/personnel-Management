@@ -18,16 +18,4 @@ window.addEventListener('DOMContentLoaded', function(){
         document.getElementById('wrapperInput').appendChild(clone);
      });
 
-
-//     let form = document.querySelector(".formBrigage").serialize();
-//     console.log(fo)
-//     //    input = formReg.getElementsByTagName('input');
-//        form.addEventListener('submit', function(event){
-//            event.preventDefault();
-//            let response =  fetch('brigades', {
-//                    method: 'POST',
-//                    body: new URLSearchParams(new FormData(form))
-//                })
-//          });
 });          
-//new URLSearchParams(new FormData(formElement));

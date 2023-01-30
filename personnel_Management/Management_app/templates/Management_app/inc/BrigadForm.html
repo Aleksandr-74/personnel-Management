@@ -1,7 +1,15 @@
 {% load static %}
 <div class="wraper-form">
-    <form action="" method="POST" class="mb-3 col-6 formBrigage">
-        {% csrf_token %}
+    <form action="" method="POST" class="mb-3 col-6 formBrigage" id="form_brigade">
+<!--             {% csrf_token %}-->
+<!--                {% for field in form %}-->
+<!--                <div class="fieldWrapper mb-3">-->
+<!--                    {{ field.errors }}-->
+<!--                    {{ field.label_tag }} {{ field }}-->
+<!--                </div>-->
+<!--                {% endfor %}-->
+
+                {% csrf_token %}
         {{ form.non_field_errors }}
         <div id="wrapperInput">
         <div class="fieldWrapper mb-3">
@@ -15,9 +23,9 @@
             {{ form.foreman }}
         </div>
         <div class="fieldWrapper mb-3" id="fieldSelect">
-            {{ form.mechanic.errors }}
-                <label for="{{ form.mechanic.id_for_label }}">Механник</label>
-            {{ form.mechanic }}
+            {{ form.workers.errors }}
+                <label for="{{ form.workers.id_for_label }}">Механник</label>
+            {{ form.workers }}
         </div>
         </div>
         <a href="" id="add_field" class="btn btn-primary">Добавить</a>
