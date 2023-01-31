@@ -14,6 +14,7 @@ class Role(models.TextChoices):
 class Worker(models.Model):
     roles = models.CharField(max_length=100, choices=Role.choices)
     name_worker = models.CharField(max_length=150, db_index=True, verbose_name='Имя сотрудника')
+    added_to_composition = models.BooleanField(null=True, default=False)
 
     def __str__(self):
         return self.name_worker

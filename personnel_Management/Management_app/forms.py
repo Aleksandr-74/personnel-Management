@@ -1,10 +1,10 @@
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, MultiWidget
 from Management_app.models import Status, Role, Worker, Object_application, Brigade
 
 
 
-class UserBrigade(ModelForm):
+class UserBrigade(forms.Form):
     """ Форма формирования бригады"""
 
     citi = forms.CharField(label="Город", widget=forms.TextInput(
@@ -14,17 +14,20 @@ class UserBrigade(ModelForm):
     ))
 
     foreman = forms.ModelChoiceField(label='Бригадир',
-        queryset=Worker.objects.filter(roles='Мастер'),
+        queryset=Worker.objects.all().filter(roles='Мастер'),
         widget=forms.Select(
             attrs={
                 'class': 'form-select'
                 }
     ))
 
-    workers = forms.ModelMultipleChoiceField(label='Mexаник', queryset=Worker.objects.all(),
-        widget=forms.Select(
+    workers = forms.ModelMultipleChoiceField(label='Mexаник',
+        queryset=Worker.objects.all().filter(roles='Механик'),
+        widget=forms.CheckboxSelectMultiple(
             attrs={
-                'class': 'form-select'
+
+                'class': 'form-check-input',
+                # 'multiple aria - label': 'multiple select example'
             }))
 
     class Meta:

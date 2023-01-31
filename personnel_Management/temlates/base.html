@@ -16,7 +16,10 @@
 </header>
     {% block content %}{% endblock %}
     {% block footer %}{% endblock %}
-<script src="{% static 'js/js.js' %}"></script>
-<script src="{% static 'js/api.js' %}"></script>
+
+{% block script  %}
+{% endblock %}
+<!--<script src="{% static 'js/js.js' %}"></script>-->
+
 </body>
 </html>

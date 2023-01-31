@@ -50,19 +50,31 @@ def WorkerFormView(request):
 
 def BrigadeFormView(request):
     form = UserBrigade
+
+    def Updates(worker):
+        Worker.objects.filter(name_worker=worker).update(added_to_composition=1)
+        print(worker.added_to_composition)
+        return worker
+
     context = {
         "title": "Регистрация бригады",
         "form": form
     }
     if request.method == "POST":
         form = UserBrigade(request.POST)
-        brigade = Brigade.objects.create(
-            citi=form.data.get("citi"),
-            foreman=Worker.objects.get(pk=form.data.get("foreman"))
-            )
-        for worker in form.data.getlist('workers'):
-            worker = Worker.objects.get(pk=worker)
-            brigade.workers.add(worker)
+        if form.is_valid():
+            citi = form.cleaned_data["citi"]
+            foreman = form.cleaned_data["foreman"]
+            Updates(foreman)
+            brigade = Brigade.objects.create(
+                citi=citi, foreman=foreman)
+            for worker in form.cleaned_data['workers']:
+                print(worker)
+                Updates(worker)
+                brigade.workers.add(worker)
+
+
+
 
     return render(request, "Management_app/brigade.html", context=context)
 
@@ -84,21 +96,12 @@ def InfoWorker(request, worker_id):
 def InfoBrigade(request, brigade_id):
     brigade = get_object_or_404(Brigade, pk=brigade_id)
     workers = [i for i in Brigade.objects.get(pk=brigade_id).workers.all()]
+    print(workers)
     data = {
         'citi': brigade.citi,
         'foreman': brigade.foreman,
-        # 'workers': [workers[0], workers[1]]
-
-
+        'workers': workers
     }
-    # print(workers)
-    for worker in workers:
-        print(worker)
-        data['workers'] = worker
-        print(data)
-
-        # data.update({'workers': worker})
-
 
     form = UserBrigade(data)
     context = {
@@ -107,6 +110,9 @@ def InfoBrigade(request, brigade_id):
         'workers': workers,
         'title': 'Информация о бригаде'
     }
-    print(data)
+
+    worker = Worker.objects.all()
+    print(worker)
+
     return render(request, "Management_app/card_brigade.html", context=context)
 
