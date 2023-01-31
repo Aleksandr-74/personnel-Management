@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+   <main>
+       <h2>Информация о сотруднике</h2>
+       <hr>
+       <div class="wrapper-worker"></div>
+       <button id="worker_id" class="btn btn-primary delet_btn">Удалить</button>
+   </main>
+{% endblock %}
+{% block script  %}
+<script src="{% static 'js/api_worker.js' %}"></script>
+{% endblock %}

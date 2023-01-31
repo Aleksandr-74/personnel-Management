@@ -10,6 +10,7 @@ urlpatterns = [
     path('brigades/<int:brigade_id>/', InfoBrigade, name='brigade'),
     path('request', FormObject, name='request'),
     path('api/v1/brigadesAPI', BrigadesAPIList.as_view()),
-    path('brigades/<int:brigade_id>/api/v1/brigadesAPI/<int:pk>', BrigadeAPI.as_view())
+    path('brigades/<int:brigade_id>/api/v1/brigadesAPI/<int:pk>', BrigadeAPI.as_view()),
+    path('workers/<int:worker_id>/api/v1/workersAPI/<int:pk>', WorkerAPI.as_view())
 
 ]

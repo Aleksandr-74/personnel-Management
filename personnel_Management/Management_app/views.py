@@ -1,7 +1,5 @@
 from rest_framework import generics
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-
 
 from Management_app.forms import UserBrigade, UserWorker, UserRequest
 from Management_app.models import Worker, Brigade
@@ -17,6 +15,10 @@ class BrigadeAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BrigadeSerializer
     queryset = Brigade.objects.all()
 
+
+class WorkerAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = WorkerSerializer
+    queryset = Worker.objects.all()
 
 
 def home(request):
@@ -41,7 +43,6 @@ def WorkerFormView(request):
         if form.is_valid():
             name_worker = form.cleaned_data["name_worker"]
             roles = form.cleaned_data["roles"]
-            # print(roles, name_worker)
             Worker.objects.create(roles=roles, name_worker=name_worker)
     #         return reverse('home')
     return render(request, "Management_app/content.html", context=context)
@@ -73,9 +74,6 @@ def BrigadeFormView(request):
                 Updates(worker)
                 brigade.workers.add(worker)
 
-
-
-
     return render(request, "Management_app/brigade.html", context=context)
 
 
@@ -89,14 +87,12 @@ def FormObject(request):
 
 
 def InfoWorker(request, worker_id):
-    worker = get_object_or_404(Worker, pk=worker_id)
-    return HttpResponse(f"{worker}")
+    return render(request, "Management_app/card_worker.html")
 
 
 def InfoBrigade(request, brigade_id):
     brigade = get_object_or_404(Brigade, pk=brigade_id)
     workers = [i for i in Brigade.objects.get(pk=brigade_id).workers.all()]
-    print(workers)
     data = {
         'citi': brigade.citi,
         'foreman': brigade.foreman,
@@ -110,9 +106,6 @@ def InfoBrigade(request, brigade_id):
         'workers': workers,
         'title': 'Информация о бригаде'
     }
-
-    worker = Worker.objects.all()
-    print(worker)
 
     return render(request, "Management_app/card_brigade.html", context=context)
 

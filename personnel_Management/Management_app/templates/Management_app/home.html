@@ -20,7 +20,7 @@
                           <th scope="row">{{ worker.id }}</th>
                           <td>{{ worker.roles }}</td>
                           <td>{{ worker }}</td>
-                          <td><a href="{{ worker.get_absolute_url }}" class="btn btn-primary">Редактировать</a></td>
+                          <td><a href="{{ worker.get_absolute_url }}" id="{{ worker.id }}" class="btn btn-primary workers">Редактировать</a></td>
                         </tr>
                       {% endfor %}
                    </tbody>

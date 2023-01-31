@@ -12,17 +12,17 @@
                 {% for i in workers %}
                    <span>{{ i }};</span>
                 {% endfor %}
-                <div><a href="" id={{ brigade.id }} class="btn btn-primary brigade">Редактировать</a></div>
+<!--                <div><a href="" id={{ brigade.id }} class="btn btn-primary brigade">Редактировать</a></div>-->
 
             </div>
         </div>
-    </div>
-    <hr>
-    <h3>Редактировать</h3>
-    {% include "Management_app\inc\BrigadForm.html" %}
-    <hr>
-    <button id= "{{ brigade.id }}" class="btn btn-primary delet_btn">Удалить бригаду</button>
 
+        <hr>
+        <h3>Редактировать</h3>
+        {% include "Management_app\inc\BrigadForm.html" %}
+        <hr>
+        <button id= "{{ brigade.id }}" class="btn btn-primary delet_btn">Удалить бригаду</button>
+     </div>
 </main>
 {% endblock %}
 
