@@ -11,7 +11,8 @@ class BrigadesAPIList(generics.ListCreateAPIView):
     queryset = Brigade.objects.all()
 
 
-class BrigadeAPI(generics.RetrieveUpdateDestroyAPIView):
+
+class BrigadeAPI(generics.RetrieveAPIView):
     serializer_class = BrigadeSerializer
     queryset = Brigade.objects.all()
 
@@ -48,15 +49,8 @@ def WorkerFormView(request):
     return render(request, "Management_app/content.html", context=context)
 
 
-
 def BrigadeFormView(request):
     form = UserBrigade
-
-    def Updates(worker):
-        Worker.objects.filter(name_worker=worker).update(added_to_composition=1)
-        print(worker.added_to_composition)
-        return worker
-
     context = {
         "title": "Регистрация бригады",
         "form": form
@@ -64,14 +58,16 @@ def BrigadeFormView(request):
     if request.method == "POST":
         form = UserBrigade(request.POST)
         if form.is_valid():
+            print(form.cleaned_data)
             citi = form.cleaned_data["citi"]
             foreman = form.cleaned_data["foreman"]
-            Updates(foreman)
+            # Updates(foreman)
             brigade = Brigade.objects.create(
-                citi=citi, foreman=foreman)
+                citi=citi)
+            brigade.workers.add(foreman)
             for worker in form.cleaned_data['workers']:
-                print(worker)
-                Updates(worker)
+                # print(worker)
+                # Updates(worker)
                 brigade.workers.add(worker)
 
     return render(request, "Management_app/brigade.html", context=context)
@@ -86,19 +82,20 @@ def FormObject(request):
     return render(request, "Management_app/request.html", context=context)
 
 
-def InfoWorker(request, worker_id):
+def InfoWorker(request):
     return render(request, "Management_app/card_worker.html")
 
 
 def InfoBrigade(request, brigade_id):
     brigade = get_object_or_404(Brigade, pk=brigade_id)
-    workers = [i for i in Brigade.objects.get(pk=brigade_id).workers.all()]
+    workers = Brigade.objects.get(pk=brigade_id).workers.filter(roles='Механик')
+    foreman = Brigade.objects.get(pk=brigade_id).workers.all().filter(roles='Мастер')
     data = {
         'citi': brigade.citi,
-        'foreman': brigade.foreman,
+        'foreman': foreman[0],
         'workers': workers
     }
-
+    print(data)
     form = UserBrigade(data)
     context = {
         'form': form,

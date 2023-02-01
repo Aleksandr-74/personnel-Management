@@ -11,15 +11,13 @@ class WorkerSerializer(serializers.ModelSerializer):
 
 
 class BrigadeSerializer(serializers.ModelSerializer):
-    foreman = serializers.StringRelatedField(many=False)
     workers = WorkerSerializer(many=True)
 
     class Meta:
         model = Brigade
         read_only = True
-        fields = ('citi', 'foreman', 'workers')
+        fields = ('citi', 'workers')
         extra_kwargs = {
-            'foreman': {'write_only': True},
-            'workers': {'allow_blank': True}
+           'workers': {'allow_blank': False}
         }
 
