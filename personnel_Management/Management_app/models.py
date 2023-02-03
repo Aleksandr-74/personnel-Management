@@ -14,11 +14,6 @@ class Role(models.TextChoices):
 class Worker(models.Model):
     roles = models.CharField(max_length=100, choices=Role.choices)
     name_worker = models.CharField(max_length=150, db_index=True, verbose_name='Имя сотрудника')
-    brigades = models.ForeignKey(
-        to='Brigade', on_delete=models.SET_NULL,
-        blank=True,  null=True,
-        related_name='workers', verbose_name="Сотрудники"
-    )
 
     def __str__(self):
         return self.name_worker
@@ -35,6 +30,13 @@ class Brigade(models.Model):
     citi = models.CharField(
         max_length=150, verbose_name='Город'
     )
+
+    foreman = models.ForeignKey(
+        to='Worker', on_delete=models.SET_NULL,
+        blank=True, null=True,
+        related_name='foreman', verbose_name="Мастер"
+    )
+    workers = models.ManyToManyField(to='Worker', verbose_name='Сотрудники', related_name='workers')
 
     def __str__(self):
         return self.citi

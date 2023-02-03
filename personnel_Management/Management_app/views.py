@@ -12,7 +12,7 @@ class BrigadesAPIList(generics.ListCreateAPIView):
 
 
 
-class BrigadeAPI(generics.RetrieveAPIView):
+class BrigadeAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BrigadeSerializer
     queryset = Brigade.objects.all()
 
@@ -63,8 +63,8 @@ def BrigadeFormView(request):
             foreman = form.cleaned_data["foreman"]
             # Updates(foreman)
             brigade = Brigade.objects.create(
-                citi=citi)
-            brigade.workers.add(foreman)
+                citi=citi, foreman=foreman)
+            # brigade.workers.add(foreman)
             for worker in form.cleaned_data['workers']:
                 # print(worker)
                 # Updates(worker)
@@ -89,13 +89,12 @@ def InfoWorker(request):
 def InfoBrigade(request, brigade_id):
     brigade = get_object_or_404(Brigade, pk=brigade_id)
     workers = Brigade.objects.get(pk=brigade_id).workers.filter(roles='Механик')
-    foreman = Brigade.objects.get(pk=brigade_id).workers.all().filter(roles='Мастер')
+    # foreman = Brigade.objects.get(pk=brigade_id).workers.all().filter(roles='Мастер')
     data = {
         'citi': brigade.citi,
-        'foreman': foreman[0],
+        'foreman': brigade.foreman,
         'workers': workers
     }
-    print(data)
     form = UserBrigade(data)
     context = {
         'form': form,
@@ -103,6 +102,18 @@ def InfoBrigade(request, brigade_id):
         'workers': workers,
         'title': 'Информация о бригаде'
     }
+    if request.method == "POST":
+        form = UserBrigade(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            foreman = form.cleaned_data["foreman"]
+            workers = form.cleaned_data["workers"]
+
+            # wor = Worker.objects.filter(brigades_id=brigade_id)
+
+            # brigade.workers.update(workers)
+            print(brigade.foreman)
+
 
     return render(request, "Management_app/card_brigade.html", context=context)
 

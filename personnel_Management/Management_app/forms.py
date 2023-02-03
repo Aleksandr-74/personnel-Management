@@ -3,7 +3,7 @@ from django.forms import ModelForm, MultiWidget, BaseForm
 from Management_app.models import Status, Role, Worker, Object_application, Brigade, TypeWorks
 
 
-class UserBrigade(forms.Form):
+class UserBrigade(ModelForm):
     """ Форма формирования бригады"""
 
     citi = forms.CharField(label="Город", widget=forms.TextInput(
@@ -21,11 +21,16 @@ class UserBrigade(forms.Form):
 
     workers = forms.ModelMultipleChoiceField(label='Mexаник',
         queryset=Worker.objects.all().filter(roles='Механик'),
-        widget=forms.CheckboxSelectMultiple(
+        widget=forms.SelectMultiple(
             attrs={
 
-                'class': 'form-check-input',
+                # 'class': 'form-check-input',
         }))
+
+    class Meta:
+        model = Brigade
+        fields = ('citi', 'foreman', 'workers')
+
 
 
 class Object_status(forms.Form):
