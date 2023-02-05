@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <hr>
+    <div class="card">
+        <div class="card-body">
+            <div>Город : {{ brigade }}</div>
+            <div>Мастер: {{ brigade.foreman }}</div>
+            <div>
+               {% for i in workers %}
+                <div>
+                    {{ i }};
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <hr>
+        <h3>Редактировать</h3>
+        {% include "Management_app\inc\BrigadForm.html" %}
+        <hr>
+        <button id= "{{ brigade.id }}" class="btn btn-primary delet_btn">Удалить бригаду</button>
+     </div>
+</main>
+{% endblock %}
+
+
+{% block script  %}
+<script src="{% static 'js/api_brigade.js' %}"></script>
+{% endblock %}

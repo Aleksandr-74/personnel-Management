@@ -1,0 +1,19 @@
+body {
+    background-image: url('../images/fon_geometry.jpg');
+    opacity: 0.8;
+}
+
+.card-body{
+   
+}
+
+header{
+    margin-bottom: 15px;
+}
+
+
+.row{
+    justify-content: space-around;
+}
+
+
