@@ -18,7 +18,4 @@ class BrigadeSerializer(serializers.ModelSerializer):
         model = Brigade
         read_only = True
         fields = ('citi', 'foreman', 'workers')
-        extra_kwargs = {
-           'workers': {'allow_blank': False}
-        }
 

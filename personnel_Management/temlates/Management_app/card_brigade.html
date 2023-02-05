@@ -5,6 +5,15 @@
     <hr>
     <div class="card">
         <div class="card-body">
+            <div>Город : {{ brigade }}</div>
+            <div>Мастер: {{ brigade.foreman }}</div>
+            <div>
+               {% for i in workers %}
+                <div>
+                    {{ i }};
+                </div>
+                {% endfor %}
+            </div>
 
         </div>
 
@@ -19,5 +28,5 @@
 
 
 {% block script  %}
-<script src="{% static 'js/api.js' %}"></script>
+<script src="{% static 'js/api_brigade.js' %}"></script>
 {% endblock %}

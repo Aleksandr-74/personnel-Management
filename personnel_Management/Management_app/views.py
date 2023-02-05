@@ -1,119 +1,131 @@
-from rest_framework import generics
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, FormView
+from rest_framework import generics
 
-from Management_app.forms import UserBrigade, UserWorker, UserRequest
-from Management_app.models import Worker, Brigade
+from Management_app.forms import UserBrigade, UserWorker, UserObjects
+from Management_app.models import Worker, Brigade, Objectes
 from Management_app.serializers import WorkerSerializer, BrigadeSerializer
 
 
-class BrigadesAPIList(generics.ListCreateAPIView):
+class BrigadeAPI(generics.RetrieveDestroyAPIView):
     serializer_class = BrigadeSerializer
     queryset = Brigade.objects.all()
 
 
-
-class BrigadeAPI(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = BrigadeSerializer
-    queryset = Brigade.objects.all()
-
-
-class WorkerAPI(generics.RetrieveUpdateDestroyAPIView):
+class WorkerAPI(generics.RetrieveDestroyAPIView):
     serializer_class = WorkerSerializer
     queryset = Worker.objects.all()
 
 
-def home(request):
-    workers = Worker.objects.all()
-    brigabes = Brigade.objects.all()
-    context = {
-        "title": "Главная страница",
-        "workers": workers,
-        "brigades": brigabes
-    }
-    return render(request, "Management_app/home.html", context=context)
+class HomeListView(TemplateView):
+    """Глваная страничка"""
+
+    template_name = "Management_app/home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['workers'] = Worker.objects.all()
+        context['brigades'] = Brigade.objects.all()
+        context['objectes'] = Objectes.objects.all()
+        context['title'] = "Главная страница"
+        context['cat_selected'] = 0
+        return context
 
 
-def WorkerFormView(request):
-    form = UserWorker
-    context = {
-        "title": "Регистрация сотрудника",
-        "form": form
-    }
-    if request.method == "POST":
-        form = UserWorker(request.POST)
-        if form.is_valid():
-            name_worker = form.cleaned_data["name_worker"]
-            roles = form.cleaned_data["roles"]
-            Worker.objects.create(roles=roles, name_worker=name_worker)
-    #         return reverse('home')
-    return render(request, "Management_app/content.html", context=context)
+class AddWorker(CreateView):
+    """Добавление сотрудников"""
+
+    template_name = "Management_app/content.html"
+    form_class = UserWorker
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Регистрация сотрудника"
+        context['cat_selected'] = 0
+        return context
+
+    def form_vaid(self, form):
+        return super().form_valid(form)
 
 
-def BrigadeFormView(request):
-    form = UserBrigade
-    context = {
-        "title": "Регистрация бригады",
-        "form": form
-    }
-    if request.method == "POST":
-        form = UserBrigade(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            citi = form.cleaned_data["citi"]
-            foreman = form.cleaned_data["foreman"]
-            # Updates(foreman)
-            brigade = Brigade.objects.create(
-                citi=citi, foreman=foreman)
-            # brigade.workers.add(foreman)
-            for worker in form.cleaned_data['workers']:
-                # print(worker)
-                # Updates(worker)
-                brigade.workers.add(worker)
+class AddBrigade(CreateView):
+    """Регистрация бригады"""
 
-    return render(request, "Management_app/brigade.html", context=context)
+    template_name = "Management_app/brigade.html"
+    form_class = UserBrigade
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Регистрация бригады"
+        context['cat_selected'] = 0
+        return context
 
 
-def FormObject(request):
-    form = UserRequest
-    context = {
-        'title': 'Регистрация объекта',
-        "form": form
-    }
-    return render(request, "Management_app/request.html", context=context)
+class DetailWorker(DetailView):
+    """Информация о сотруднике"""
+
+    model = Worker
+    field = ('roles', 'name')
+    template_name = "Management_app/card_worker.html"
+    pk_url_kwarg = 'worker_id'
+    # success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Информация о сотруднике"
+        context['cat_selected'] = 0
+        return context
 
 
-def InfoWorker(request):
-    return render(request, "Management_app/card_worker.html")
+class DatailBrigade(UpdateView, FormView):
+    model = Brigade
+    template_name = "Management_app/card_brigade.html"
+    form_class = UserBrigade
+    pk_url_kwarg = 'brigade_id'
+    success_url = reverse_lazy('home')
+
+    # workers = Brigade.objects.get(pk=brigade_id).worker.filter(roles='Механик')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Информация о бригаде"
+        context['workers'] = Brigade.objects.get(pk=1).workers.filter(roles='Механик')
+        context['cat_selected'] = 0
+        return context
 
 
-def InfoBrigade(request, brigade_id):
-    brigade = get_object_or_404(Brigade, pk=brigade_id)
-    workers = Brigade.objects.get(pk=brigade_id).workers.filter(roles='Механик')
-    # foreman = Brigade.objects.get(pk=brigade_id).workers.all().filter(roles='Мастер')
-    data = {
-        'citi': brigade.citi,
-        'foreman': brigade.foreman,
-        'workers': workers
-    }
-    form = UserBrigade(data)
-    context = {
-        'form': form,
-        'brigade': brigade,
-        'workers': workers,
-        'title': 'Информация о бригаде'
-    }
-    if request.method == "POST":
-        form = UserBrigade(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            foreman = form.cleaned_data["foreman"]
-            workers = form.cleaned_data["workers"]
+class AddObject(CreateView):
+    """Рeгистрация объета"""
 
-            # wor = Worker.objects.filter(brigades_id=brigade_id)
+    template_name = "Management_app/request.html"
+    form_class = UserObjects
+    success_url = reverse_lazy('home')
 
-            # brigade.workers.update(workers)
-            print(brigade.foreman)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Регистрация объекта"
+        context['cat_selected'] = 0
+        return context
 
 
-    return render(request, "Management_app/card_brigade.html", context=context)
+class DataiObjects(UpdateView, FormView):
+    """Информацмя о объекте"""
+
+    model = Objectes
+    template_name = "Management_app/card_objectes.html"
+    fields = ('status_work',)
+    pk_url_kwarg = 'objectes_id'
+    success_url = reverse_lazy('home')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Информация о объекте"
+        context['cat_selected'] = 0
+        return context
+
+
 

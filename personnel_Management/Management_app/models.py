@@ -13,10 +13,10 @@ class Role(models.TextChoices):
 
 class Worker(models.Model):
     roles = models.CharField(max_length=100, choices=Role.choices)
-    name_worker = models.CharField(max_length=150, db_index=True, verbose_name='Имя сотрудника')
+    name = models.CharField(max_length=150, db_index=True, verbose_name='Имя сотрудника')
 
     def __str__(self):
-        return self.name_worker
+        return f'{self.roles}: {self.name}'
 
     class Meta:
         pass
@@ -32,11 +32,11 @@ class Brigade(models.Model):
     )
 
     foreman = models.ForeignKey(
-        to='Worker', on_delete=models.SET_NULL,
-        blank=True, null=True,
+        to='Worker', on_delete=models.PROTECT,
+        blank=False, null=True,
         related_name='foreman', verbose_name="Мастер"
     )
-    workers = models.ManyToManyField(to='Worker', verbose_name='Сотрудники', related_name='workers')
+    workers = models.ManyToManyField(to='Worker', verbose_name='Сотрудники', related_name='brigade')
 
     def __str__(self):
         return self.citi
@@ -54,6 +54,7 @@ class Brigade(models.Model):
 
 class TypeWorks(models.TextChoices):
     """Тип работ"""
+
     A = "selected", '-----'
     SERVICE = 'SERVICE', 'Техническое обслуживание'
     REPAIR = 'REPAIR', 'Ремонт'
@@ -64,27 +65,27 @@ class TypeWorks(models.TextChoices):
 class Status(models.TextChoices):
     """ Статус объекта"""
 
-    pass
+    A = "selected", '-----'
+    NEWS = "Новый", "Новый"
+    LAUNCHED_INTO_WORK = "Запущен в работу", "Запущен в работу"
+    PAUSE = "Пауза", "Пауза"
+    COMPLETED = "Завершен", "Завершен"
 
 
 
-class Object_application(models.Model):
-    name = models.CharField(max_length=150, db_index=True, verbose_name='Имя объекта')
+class Objectes(models.Model):
+    name = models.CharField(max_length=255, db_index=True, verbose_name='Имя объекта')
     place_work = models.CharField(max_length=150, verbose_name='Место работ')
     description = models.TextField(verbose_name="Описание работ")
     type_works = models.CharField(max_length=100, choices=TypeWorks.choices, verbose_name='Тип работ')
     status_work = models.CharField(max_length=100, choices=Status.choices, verbose_name='Статус работ')
-    start_time = models.DateTimeField(
-        verbose_name="Время начала работ", null=True, blank=True)
-    finishing_time = models.DateTimeField(
-        verbose_name="Время окончания работ", null=True, blank=True)
     brigades = models.ForeignKey(to="Brigade", on_delete=models.PROTECT, verbose_name="Бригада")
 
     def __str__(self):
         return f"{self.name}, статус: {self.status_work}"
 
     def get_absolute_url(self):
-        return reverse("request", kwargs={"ObjectApplication_id": self.pk})
+        return reverse("objecte", kwargs={"objectes_id": self.pk})
 
 
 
