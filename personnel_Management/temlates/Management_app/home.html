@@ -4,17 +4,17 @@
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
-                <h5 class="card-title">Сотрудники</h5>
+                <h5 class="card-title"><h6>Сотрудники</h6></h5>
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
-                <h5 class="card-title">Бригады</h5>
+                <h5 class="card-title"><h6>Бригады</h6></h5>
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
-                <h5 class="card-title">Объекты</h5>
+                <h5 class="card-title"><h6>Объекты</h6></h5>
             </button>
         </li>
     </ul>
@@ -25,19 +25,20 @@
                     <div class="row">
                         <div class="col-md-10">
                             <table class="table table-striped table-hover">
-                                <thead>
+                                <thead class="table-dark">
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col"><h4>Должность</h4></th>
-                                        <th scope="col"><h4>Сотрудник</h4></th>
+                                        <th scope="col"><h5>Должность</h5></th>
+                                        <th scope="col"><h5>Сотрудник</h5></th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {% for worker in workers%}
                                     <tr>
                                         <th scope="row"><h5>{{ worker.id }}</h5></th>
-                                        <td><h5>{{ worker.roles }}</h5></td>
-                                        <td><h5>{{ worker }}</h5></td>
+                                        <td><h6>{{ worker.roles }}</h6></td>
+                                        <td><h6>{{ worker }}</h6></td>
                                         <td><a href="{{ worker.get_absolute_url }}" id="{{ worker.id }}" class="btn btn-primary workers">Смотреть</a></td>
                                     </tr>
                                     {% endfor %}
@@ -54,18 +55,19 @@
                     <div class="row">
                         <div class="col-md-10">
                             <table class="table table-striped table-hover">
-                                <thead>
+                                <thead class="table-dark">
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col"><h4>Город</h4></th>
-                                        <th scope="col"><h4>Бригадир</h4></th>
+                                        <th scope="col"><h5>Город</h5></th>
+                                        <th scope="col"><h5>Бригадир</h5></th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for brigade in brigades %}
                                     <tr>
-                                        <th scope="row"><h5>{{ brigade.id }}</h5></th>
-                                        <td><h5>{{ brigade.citi }}</h5></td>
+                                        <th scope="row"><h6>{{ brigade.id }}</h6></th>
+                                        <td><h6>{{ brigade.citi }}</h6></td>
                                         <td><h6>{{ brigade.foreman }}</h6></td>
                                         <td><a href="{{ brigade.get_absolute_url }}" id="{{ brigade.id }}" class="btn btn-primary">Смотреть</a></td>
                                     </tr>
@@ -91,17 +93,18 @@
                                         <th scope="col"><h5>Статус работ</h5></th>
                                         <th scope="col"><h5>Бригада</h5></th>
                                         <th scope="col"><h5>Дата окончания работ</h5></th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {% for objecte in objectes %}
                                     <tr>
                                         <th scope="row"><h5>{{ objecte.id }}</h5></th>
-                                        <td><h5>{{ objecte.place_work }}</h5></td>
-                                        <td><h5>{{ objecte.type_works }}</h5></td>
-                                        <td><h5>{{ objecte.status_work }}</h5></td>
-                                        <td><h5>{{ objecte.brigades_id }}</h5></td>
-                                        <td><h5>{{ objecte.finishing_time }}</h5></td>
+                                        <td><h6>{{ objecte.place_work }}</h6></td>
+                                        <td><h6>{{ objecte.type_works }}</h6></td>
+                                        <td><h6>{{ objecte.status_work }}</h6></td>
+                                        <td><h6>{{ objecte.brigades_id }}</h6></td>
+                                        <td><h6>{{ objecte.finishing_time }}</h6></td>
                                         <td>
                                             <a href="{{ objecte.get_absolute_url }}" id="{{ objecte.id }}" class="btn btn-primary">
                                                 Смотреть

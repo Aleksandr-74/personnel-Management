@@ -6,13 +6,19 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+                <h6>Home</h6>
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">object</button>
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+                <h6>Работы</h6>
+            </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Редактировать</button>
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
+                <h6>Редактировать</h6>
+            </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button>
@@ -27,9 +33,7 @@
                     <div>
                         <span>Meханики:</span>
                         {% for i in workers %}
-                            <div>
                             {{ i }};
-                            </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -39,12 +43,30 @@
             <div class="card">
                 <div class="card-body">
                     <div>
-                        <span>object:</span>
-                       {% for i in object %}
-                        <div>
-                            {{ i }};
-                        </div>
-                        {% endfor %}
+                        <table class="table">
+                            <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Имя объекта</th>
+                                        <th scope="col">Тип работ</th>
+                                        <th scope="col">Статус работ</th>
+                                        <th scope="col">Время начала работ</th>
+                                        <th scope="col">Время окончания работ</th>
+                                    </tr>
+                            </thead>
+                            <tbody>
+                                 {% for i in object %}
+                                <tr>
+                                        <th scope="row"><h5>{{ i.id }}</h5></th>
+                                        <td><h5>{{ i.name }}</h5></td>
+                                        <td><h6>{{ i.type_works }}</h6></td>
+                                        <td><h6>{{ i.status_work }}</h6></td>
+                                        <td><h6>{{ i.start_time }}</h6></td>
+                                        <td><h6>{{ i.finishing_time }}</h6></td>
+                                </tr>
+                              {% endfor %}
+                              </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
