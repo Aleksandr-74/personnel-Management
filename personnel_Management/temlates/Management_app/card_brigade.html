@@ -2,31 +2,67 @@
 {% load static %}
 {% block content %}
 <main>
-    <hr>
-    <div class="card">
-        <div class="card-body">
-            <div>Город : {{ brigade }}</div>
-            <div>Мастер: {{ brigade.foreman }}</div>
-            <div>
-               {% for i in workers %}
-                <div>
-                    {{ i }};
+    <h2>{{ title }}: {{ brigade }}</h2>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+         <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">object</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Редактировать</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Disabled</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="card">
+                <div class="card-body">
+                    <div>Город : {{ brigade }}</div>
+                    <div>Мастер: {{ brigade.foreman }}</div>
+                    <div>
+                        <span>Meханики:</span>
+                        {% for i in workers %}
+                            <div>
+                            {{ i }};
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-                {% endfor %}
             </div>
-
         </div>
-
-        <hr>
-        <h3>Редактировать</h3>
-        {% include "Management_app\inc\BrigadForm.html" %}
-        <hr>
-        <button id= "{{ brigade.id }}" class="btn btn-primary delet_btn">Удалить бригаду</button>
-     </div>
+        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <span>object:</span>
+                       {% for i in object %}
+                        <div>
+                            {{ i }};
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Редактировать</h3>
+                    {% include "Management_app\inc\BrigadForm.html" %}
+                    <hr>
+                    <button id= "{{ brigade.id }}" class="btn btn-primary delet_btn">Удалить бригаду</button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
+    </div>
 </main>
 {% endblock %}
-
-
 {% block script  %}
 <script src="{% static 'js/api_brigade.js' %}"></script>
 {% endblock %}

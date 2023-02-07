@@ -1,8 +1,5 @@
-import datetime
-
-from django.urls import reverse
-
 from django.db import models
+from django.urls import reverse
 
 
 class Role(models.TextChoices):
@@ -16,7 +13,7 @@ class Worker(models.Model):
     name = models.CharField(max_length=150, db_index=True, verbose_name='Имя сотрудника')
 
     def __str__(self):
-        return f'{self.roles}: {self.name}'
+        return self.name
 
     class Meta:
         pass
@@ -72,24 +69,21 @@ class Status(models.TextChoices):
     COMPLETED = "Завершен", "Завершен"
 
 
-
 class Objectes(models.Model):
     name = models.CharField(max_length=255, db_index=True, verbose_name='Имя объекта')
     place_work = models.CharField(max_length=150, verbose_name='Место работ')
     description = models.TextField(verbose_name="Описание работ")
     type_works = models.CharField(max_length=100, choices=TypeWorks.choices, verbose_name='Тип работ')
     status_work = models.CharField(max_length=100, choices=Status.choices, verbose_name='Статус работ')
-    brigades = models.ForeignKey(to="Brigade", on_delete=models.PROTECT, verbose_name="Бригада")
+    start_time = models.DateField(
+        verbose_name="Время начала работ", null=True, blank=True)
+    finishing_time = models.DateField(
+        verbose_name="Время окончания работ", null=True, blank=True)
+    brigades = models.ForeignKey(to="Brigade", on_delete=models.PROTECT, verbose_name="Бригада", related_name='object')
 
     def __str__(self):
-        return f"{self.name}, статус: {self.status_work}"
+        return f"Имя объекта: {self.name}, Cтатус: {self.status_work}, Время окончания работ: {self.finishing_time}"
 
     def get_absolute_url(self):
         return reverse("objecte", kwargs={"objectes_id": self.pk})
 
-
-
-# class ObjectBrigade(models.Model):
-#     brigade = models.ForeignKey('Brigade', on_delete=models.CASCADE)
-#     objecte = models.ForeignKey('Object_application', on_delete=models.CASCADE)
-#     date_start = models.DateField(null=True, blank=True)

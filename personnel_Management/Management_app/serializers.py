@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from Management_app.models import Worker, Brigade
+from Management_app.models import Worker, Brigade, Objectes
 
 
 class WorkerSerializer(serializers.ModelSerializer):
@@ -18,4 +18,12 @@ class BrigadeSerializer(serializers.ModelSerializer):
         model = Brigade
         read_only = True
         fields = ('citi', 'foreman', 'workers')
+
+
+class ObjectSeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Objectes
+        fields = ('name', 'place_work', 'description', 'type_works',
+                  'status_work', 'start_time', 'finishing_time', 'brigades')
 
