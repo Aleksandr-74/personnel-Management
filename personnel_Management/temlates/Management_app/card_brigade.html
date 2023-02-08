@@ -3,7 +3,6 @@
 {% block content %}
 <main>
     <h2>{{ title }}: {{ brigade }}</h2>
-
     <ul class="nav nav-tabs" id="myTab" role="tablist">
          <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
@@ -55,16 +54,16 @@
                                     </tr>
                             </thead>
                             <tbody>
-                                 {% for i in object %}
+                                {% for i in object %}
                                 <tr>
-                                        <th scope="row"><h5>{{ i.id }}</h5></th>
-                                        <td><h5>{{ i.name }}</h5></td>
-                                        <td><h6>{{ i.type_works }}</h6></td>
-                                        <td><h6>{{ i.status_work }}</h6></td>
-                                        <td><h6>{{ i.start_time }}</h6></td>
-                                        <td><h6>{{ i.finishing_time }}</h6></td>
+                                    <th scope="row"><h5>{{ i.id }}</h5></th>
+                                    <td><h5>{{ i.name }}</h5></td>
+                                    <td><h6>{{ i.type_works }}</h6></td>
+                                    <td><h6>{{ i.status_work }}</h6></td>
+                                    <td><h6>{{ i.start_time }}</h6></td>
+                                    <td><h6>{{ i.finishing_time }}</h6></td>
                                 </tr>
-                              {% endfor %}
+                                {% endfor %}
                               </tbody>
                         </table>
                     </div>

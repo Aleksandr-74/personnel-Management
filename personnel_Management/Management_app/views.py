@@ -1,8 +1,8 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.http import request
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, FormView
@@ -27,6 +27,7 @@ class WorkerAPI(generics.RetrieveDestroyAPIView):
 class AddObjectAPI(generics.CreateAPIView):
     serializer_class = ObjectSeSerializer
     queryset = Objectes.objects.all()
+
 
 @method_decorator(login_required, name='dispatch')
 class HomeListView(TemplateView):
@@ -59,6 +60,7 @@ class AddWorker(CreateView):
     def form_vaid(self, form):
         return super().form_valid(form)
 
+
 @method_decorator(login_required, name='dispatch')
 class AddBrigade(CreateView,  FormView):
     """Регистрация бригады"""
@@ -72,6 +74,7 @@ class AddBrigade(CreateView,  FormView):
         context['title'] = "Регистрация бригады"
         return context
 
+
 @method_decorator(login_required, name='dispatch')
 class AddObject(CreateView, FormView):
     """Рeгистрация объета"""
@@ -84,7 +87,6 @@ class AddObject(CreateView, FormView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Регистрация объекта"
         return context
-
 
 
 '''Блок получения информации о объектах'''
@@ -102,6 +104,7 @@ class DetailWorker(DetailView):
         context['title'] = "Информация о сотруднике"
         return context
 
+
 @method_decorator(login_required, name='dispatch')
 class DatailBrigade(UpdateView, FormView):
     """Информация о бригаде и обновления"""
@@ -113,22 +116,23 @@ class DatailBrigade(UpdateView, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        workers = context.get('object').workers.filter(roles='Механик')
+        object = Objectes.objects.filter(brigades_id=context.get('object').pk)
         context['title'] = "Информация о бригаде"
-        context['workers'] = context.get('object').workers.filter(roles='Механик')
-        context['object'] = Objectes.objects.filter(brigades_id=context.get('object').pk)
+        context['workers'] = workers
+        context['object'] = object
         return context
 
 
-''' '''
 @method_decorator(login_required, name='dispatch')
-class DataiObjects(DetailView, UpdateView):
-    """Информацмя о объекте"""
+class DataiObjects(DetailView, UpdateView, FormView):
+    """Информацмя и обновления объекта"""
 
     model = Objectes
     template_name = "Management_app/card_objectes.html"
-    fields = ('status_work',)
-    pk_url_kwarg = 'objectes_id'
-    success_url = reverse_lazy('home')
+    fields = ('status_work', 'finishing_time')
+    pk_url_kwarg = "objectes_id"
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

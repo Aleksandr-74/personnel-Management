@@ -27,7 +27,6 @@ class Brigade(models.Model):
     citi = models.CharField(
         max_length=150, verbose_name='Город'
     )
-
     foreman = models.ForeignKey(
         to='Worker', on_delete=models.PROTECT,
         blank=False, null=True,
@@ -44,7 +43,6 @@ class Brigade(models.Model):
 
     def get_absolute_url(self):
         return reverse("brigade", kwargs={"brigade_id": self.pk})
-
 
 
 """Объект"""
