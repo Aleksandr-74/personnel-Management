@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, FormView
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -27,7 +28,7 @@ class AddObjectAPI(generics.CreateAPIView):
     serializer_class = ObjectSeSerializer
     queryset = Objectes.objects.all()
 
-
+@method_decorator(login_required, name='dispatch')
 class HomeListView(TemplateView):
     """Глваная страничка"""
     template_name = "Management_app/home.html"
@@ -38,29 +39,27 @@ class HomeListView(TemplateView):
         context['brigades'] = Brigade.objects.all()
         context['objectes'] = Objectes.objects.all()
         context['title'] = "Главная страница"
-        context['cat_selected'] = 0
         return context
 
 
 '''Блок добавления в БД'''
-
+@method_decorator(login_required, name='dispatch')
 class AddWorker(CreateView):
     """Добавление сотрудников"""
 
-    template_name = "Management_app/content.html"
+    template_name = "Management_app/reg_worker.html"
     form_class = UserWorker
     success_url = reverse_lazy('home')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Регистрация сотрудника"
-        context['cat_selected'] = 0
         return context
 
     def form_vaid(self, form):
         return super().form_valid(form)
 
-
+@method_decorator(login_required, name='dispatch')
 class AddBrigade(CreateView,  FormView):
     """Регистрация бригады"""
 
@@ -71,26 +70,25 @@ class AddBrigade(CreateView,  FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Регистрация бригады"
-        context['cat_selected'] = 0
         return context
 
+@method_decorator(login_required, name='dispatch')
 class AddObject(CreateView, FormView):
     """Рeгистрация объета"""
 
-    template_name = "Management_app/request.html"
+    template_name = "Management_app/reg_object.html"
     form_class = UserObjects
     success_url = reverse_lazy('home')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Регистрация объекта"
-        context['cat_selected'] = 0
         return context
 
 
 
 '''Блок получения информации о объектах'''
-
+@method_decorator(login_required, name='dispatch')
 class DetailWorker(DetailView):
     """Информация о сотруднике"""
 
@@ -98,15 +96,13 @@ class DetailWorker(DetailView):
     field = ('roles', 'name')
     template_name = "Management_app/card_worker.html"
     pk_url_kwarg = 'worker_id'
-    # success_url = reverse_lazy('home')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Информация о сотруднике"
-        context['cat_selected'] = 0
         return context
 
-
+@method_decorator(login_required, name='dispatch')
 class DatailBrigade(UpdateView, FormView):
     """Информация о бригаде и обновления"""
 
@@ -120,13 +116,12 @@ class DatailBrigade(UpdateView, FormView):
         context['title'] = "Информация о бригаде"
         context['workers'] = context.get('object').workers.filter(roles='Механик')
         context['object'] = Objectes.objects.filter(brigades_id=context.get('object').pk)
-        context['cat_selected'] = 0
         return context
 
 
 ''' '''
-
-class DataiObjects(UpdateView, FormView):
+@method_decorator(login_required, name='dispatch')
+class DataiObjects(DetailView, UpdateView):
     """Информацмя о объекте"""
 
     model = Objectes
@@ -138,6 +133,5 @@ class DataiObjects(UpdateView, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Информация о объекте"
-        context['cat_selected'] = 0
         return context
 

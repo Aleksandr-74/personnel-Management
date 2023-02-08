@@ -1,21 +1,21 @@
 {% load static %}
-<div class="wraper-form">
-    <form action="" method="POST" name="form_brigade" class="mb-3 col-6 formBrigage" id="form_brigade">
+
+    <form action="" method="POST" name="form_brigade" class="formBrigage" id="form_brigade">
              {% csrf_token %}
         {{ form.non_field_errors }}
         <div id="wrapperInput">
-            <div class="fieldWrapper mb-3">
+            <div class="fieldWrapper col-12 mb-3">
                 {{ form.citi.errors }}
                 <label for="{{ form.citi.id_for_label }}">Город:</label>
                 {{ form.citi }}
             </div>
-            <div class="fieldWrapper mb-3">
+            <div class="fieldWrapper col-12 mb-3">
             {{ form.foreman.errors }}
                 <label for="{{ form.foreman.id_for_label }}">Мастер:</label>
 
                 {{ form.foreman }}
             </div>
-            <div class="fieldWrapper mb-3">
+            <div class="fieldWrapper col-12 mb-3">
                 {{ form.workers.errors }}
               <label for="{{ form.workers.id_for_label }}">Механики:</label>
 
@@ -29,4 +29,3 @@
         </div>
         <button id="send" type="submit"  class="btn btn-primary">Отправить</button>
     </form>
-</div>

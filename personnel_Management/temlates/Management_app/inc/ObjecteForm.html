@@ -1,6 +1,6 @@
 {% load static %}
-<div class="wraper-form">
-    <form action="" method="POST" class="mb-3 col-6" id="objects">
+
+    <form action="" method="POST" id="objects">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <div id="wrapperInput">
@@ -45,4 +45,3 @@
         </div>
         <button id="send" type="submit" class="btn btn-primary">Отправить</button>
     </form>
-</div>

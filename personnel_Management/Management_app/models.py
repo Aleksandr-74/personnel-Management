@@ -62,7 +62,6 @@ class TypeWorks(models.TextChoices):
 class Status(models.TextChoices):
     """ Статус объекта"""
 
-    A = "selected", '-----'
     NEWS = "Новый", "Новый"
     LAUNCHED_INTO_WORK = "Запущен в работу", "Запущен в работу"
     PAUSE = "Пауза", "Пауза"
@@ -74,7 +73,7 @@ class Objectes(models.Model):
     place_work = models.CharField(max_length=150, verbose_name='Место работ')
     description = models.TextField(verbose_name="Описание работ")
     type_works = models.CharField(max_length=100, choices=TypeWorks.choices, verbose_name='Тип работ')
-    status_work = models.CharField(max_length=100, choices=Status.choices, verbose_name='Статус работ')
+    status_work = models.CharField(max_length=100,  choices=Status.choices,  default=Status.NEWS, verbose_name='Статус работ')
     start_time = models.DateField(
         verbose_name="Время начала работ", null=True, blank=True)
     finishing_time = models.DateField(

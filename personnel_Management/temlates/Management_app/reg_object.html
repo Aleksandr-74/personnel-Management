@@ -2,11 +2,11 @@
 {% load static %}
 {% block content %}
 <main>
-    <div class="card">
-        <div class="card-body">
-            {% include "Management_app\inc\ObjecteForm.html" %}
-        </div>
+    <div class="wraper-form col-5">
+        <h5 >{{ title }}</h5>
+         {% include "Management_app\inc\ObjecteForm.html" %}
     </div>
+
 </main>
 {% endblock %}
 
