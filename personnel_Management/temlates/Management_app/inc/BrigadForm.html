@@ -1,0 +1,28 @@
+{% load static %}
+    <form action="" method="POST" name="form_brigade" class="formBrigage" id="form_brigade">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div id="wrapperInput">
+            <div class="fieldWrapper col-12 mb-3">
+                {{ form.citi.errors }}
+                <label for="{{ form.citi.id_for_label }}">Город:</label>
+                {{ form.citi }}
+            </div>
+            <div class="fieldWrapper col-12 mb-3">
+            {{ form.foreman.errors }}
+                <label for="{{ form.foreman.id_for_label }}">Мастер:</label>
+                {{ form.foreman }}
+            </div>
+            <div class="fieldWrapper col-12 mb-3">
+                {{ form.workers.errors }}
+                <label for="{{ form.workers.id_for_label }}">Механики:</label>
+                {% for worker in  form.workers %}
+                <div class="form-check form-switch" id="fieldSelect">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                    <label class="form-check-label"  for="{{ form.workers.id_for_label }}">{{ worker }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button id="send" type="submit"  class="btn btn-primary">Отправить</button>
+    </form>

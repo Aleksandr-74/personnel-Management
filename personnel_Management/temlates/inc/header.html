@@ -1,0 +1,49 @@
+{% load static %}
+<div class="wraper-headr">
+    <hr>
+    <div class="hstack gap-3">
+        <div class="header-line">
+           {% if user.is_authenticated %}
+           <h5>Пользователь: {{ user }}</h5>
+           {% endif %}
+        </div>
+        <div class="header-line">
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout'%}"><h6>Выйти</h6></a>
+            {% else %}
+            <a href="{% url 'login' %}"><h6>Войти</h6></a>
+            <div class="vr"></div>
+            <a href="{% url 'register'%}"><h6>Зарегистрироватся</h6></a>
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+    <div class="wraper-logo">
+        <div class="image-logo"></div>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="wraper-menu">
+        <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">Главная</a>
+                <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'workers' %}">Регистрация сотрудников</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{% url 'brigades' %}">Регистрация бригады</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{% url 'request' %}">Рeгистрация объекта</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    {% endif %}
+</div>

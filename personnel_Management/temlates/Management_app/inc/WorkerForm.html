@@ -1,0 +1,12 @@
+{% load static %}
+<form action="" method="POST">
+    <h6>{{ title }}</h6>
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="fieldWrapper mb-3">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+        </div>
+    {% endfor %}
+    <button  type="submit" class="btn btn-primary">Зарегистрировать</button>
+</form>

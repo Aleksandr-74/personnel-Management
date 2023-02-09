@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="card">
+        <div class="card-body">
+            <h3>Редактировать</h3>
+            <hr>
+            <form action="" method="POST" class="mb-3 col-6">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                <div class="fieldWrapper mb-3">
+                    {{ form.status_work.errors }}
+                    <label for="{{ form.status_work.id_for_label }}">Статус работ:</label>
+                     {{ form.status_work }}
+                </div>
+                <div class="fieldWrapper mb-3 form-group">
+                    <label for="{{ form.finishing_time.id_for_label }}">Время окончания работ:</label>
+                        {{ form.finishing_time }}
+                </div>
+                <button id="send" type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+
+{% block script  %}
+{% endblock %}
