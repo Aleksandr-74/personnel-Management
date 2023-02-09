@@ -1,9 +1,9 @@
 from django import forms
-from django.forms import ModelForm
+
 from Management_app.models import Status, Role, Worker, Objectes, Brigade, TypeWorks
 
 
-class UserWorker(ModelForm):
+class UserWorker(forms.ModelForm):
     """ Регистрация сотрудник в БД"""
 
     roles = forms.ChoiceField(label='Роль', choices=Role.choices,
@@ -19,7 +19,7 @@ class UserWorker(ModelForm):
         fields = ('roles', 'name')
 
 
-class UserBrigade(ModelForm):
+class UserBrigade(forms.ModelForm):
     """ Форма формирования бригады"""
 
     citi = forms.CharField(label="Город", widget=forms.TextInput(
@@ -41,7 +41,7 @@ class UserBrigade(ModelForm):
         fields = ('citi', 'foreman', 'workers')
 
 
-class UserObjects(ModelForm):
+class UserObjects(forms.ModelForm):
     name = forms.CharField(label="Имя объекта:", widget=forms.TextInput(
         attrs={'class': 'form-control'})
     )
@@ -64,21 +64,19 @@ class UserObjects(ModelForm):
             attrs={'class': 'form-select'})
     )
 
-    # start_time = forms.DateTimeField(
-    #     input_formats=['%m/%d/%Y %H:%M'],
-    #     widget=forms.DateTimeInput(attrs={
-    #         'class': 'form-control datetimepicker-input',
-    #         'data-target': '#datetimepicker1'
-    #     })
-    # )
-    #
-    # finishing_time = forms.DateTimeField(
-    #     input_formats=['%m/%d/%Y %H:%M'],
-    #     widget=forms.DateTimeInput(attrs={
-    #         'class': 'form-control datetimepicker-input',
-    #         'data-target': '#datetimepicker2'
-    #     })
-    # )
+    start_time = forms.DateField(
+        widget=forms.DateInput(attrs={
+            'class': 'form-control',
+            'type': 'date'
+        })
+    )
+
+    finishing_time = forms.DateField(
+        widget=forms.DateInput(attrs={
+            'class': 'form-control',
+            'type': 'date'
+        })
+    )
 
     brigades = forms.ModelChoiceField(label='Бригадa',
         queryset=Brigade.objects.all(), widget=forms.Select(
@@ -88,4 +86,4 @@ class UserObjects(ModelForm):
     class Meta:
         model = Objectes
         fields = ('name', 'place_work', 'description', 'type_works',
-                  'status_work', 'brigades')
+                  'status_work', 'start_time', 'finishing_time', 'brigades')

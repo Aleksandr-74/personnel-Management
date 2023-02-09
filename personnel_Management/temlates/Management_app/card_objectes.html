@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
 <main>
-    <hr>
     <div class="card">
         <div class="card-body">
             <h3>Редактировать</h3>
@@ -13,7 +12,11 @@
                 <div class="fieldWrapper mb-3">
                     {{ form.status_work.errors }}
                     <label for="{{ form.status_work.id_for_label }}">Статус работ:</label>
-                    {{ form.status_work }}
+                     {{ form.status_work }}
+                </div>
+                <div class="fieldWrapper mb-3 form-group">
+                    <label for="{{ form.finishing_time.id_for_label }}">Время окончания работ:</label>
+                        {{ form.finishing_time }}
                 </div>
                 <button id="send" type="submit" class="btn btn-primary">Отправить</button>
             </form>

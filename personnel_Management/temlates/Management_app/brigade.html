@@ -2,10 +2,9 @@
 {% load static %}
 {% block content %}
     <main>
-         <div class="card">
-            <div class="card-body">
+         <div class="wraper-form col-5">
+             <h6>{{ title }}</h6>
             {% include "Management_app\inc\BrigadForm.html" %}
-            </div>
-         </div>
-    </main>
+        </div>
+   </main>
 {% endblock %}

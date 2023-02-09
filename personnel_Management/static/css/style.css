@@ -3,17 +3,31 @@ body {
     opacity: 0.8;
 }
 
-.card-body{
-   
-}
-
 header{
     margin-bottom: 15px;
 }
 
+.hstack{
+    justify-content: space-between;
+}
+
+.header-line{
+    display: flex;
+    gap: 30px;
+}
 
 .row{
     justify-content: space-around;
 }
 
+.wraper-form{
 
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+    background-color: #ebebeb;
+    padding: 38px 40px 40px 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
+
+}
