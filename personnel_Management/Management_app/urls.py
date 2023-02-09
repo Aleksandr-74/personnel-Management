@@ -12,6 +12,5 @@ urlpatterns = [
     path('ojectes/<int:objectes_id>/', DataiObjects.as_view(), name='objecte'),
     path('brigades/<int:brigade_id>/api/v1/brigadesAPI/<int:pk>', BrigadeAPI.as_view()),
     path('workers/<int:worker_id>/api/v1/workersAPI/<int:pk>', WorkerAPI.as_view()),
-    path('request/api/v1/objectAPI/', AddObjectAPI.as_view(), name='create'),
-
+    # path('request/api/v1/objectAPI/', AddObjectAPI.as_view(), name='create'),
 ]

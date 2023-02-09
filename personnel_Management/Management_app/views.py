@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -22,6 +23,7 @@ class WorkerAPI(generics.RetrieveDestroyAPIView):
 class AddObjectAPI(generics.CreateAPIView):
     serializer_class = ObjectSeSerializer
     queryset = Objectes.objects.all()
+
 
 @method_decorator(login_required, name='dispatch')
 class HomeListView(TemplateView):
@@ -81,7 +83,6 @@ class AddObject(CreateView, FormView):
         return context
 
 
-
 '''Блок получения информации о объектах'''
 @method_decorator(login_required, name='dispatch')
 class DetailWorker(DetailView):
@@ -97,6 +98,7 @@ class DetailWorker(DetailView):
         context['title'] = "Информация о сотруднике"
         return context
 
+
 @method_decorator(login_required, name='dispatch')
 class DatailBrigade(UpdateView, FormView):
     """Информация о бригаде и обновления"""
@@ -108,22 +110,23 @@ class DatailBrigade(UpdateView, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        workers = context.get('object').workers.filter(roles='Механик')
+        object = Objectes.objects.filter(brigades_id=context.get('object').pk)
         context['title'] = "Информация о бригаде"
-        context['workers'] = context.get('object').workers.filter(roles='Механик')
-        context['object'] = Objectes.objects.filter(brigades_id=context.get('object').pk)
+        context['workers'] = workers
+        context['object'] = object
         return context
 
 
-''' '''
 @method_decorator(login_required, name='dispatch')
-class DataiObjects(DetailView, UpdateView):
-    """Информацмя о объекте"""
+class DataiObjects(DetailView, UpdateView, FormView):
+    """Информацмя и обновления объекта"""
 
     model = Objectes
     template_name = "Management_app/card_objectes.html"
-    fields = ('status_work',)
-    pk_url_kwarg = 'objectes_id'
-    success_url = reverse_lazy('home')
+    fields = ('status_work', 'finishing_time')
+    pk_url_kwarg = "objectes_id"
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

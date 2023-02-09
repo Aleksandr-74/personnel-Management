@@ -1,18 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-   <main>
-       <h2>Информация о сотруднике</h2>
-       <hr>
-       <div class="wrapper-worker">
-           <div class="">
-        <h3 class="title_text">{{ worker.roles }}: {{ worker.name}}</h3>
+<main>
+    <h2>Информация о сотруднике</h2>
+    <hr>
+    <div class="wrapper-worker">
+        <div class="">
+            <h3 class="title_text">{{ worker.roles }}: {{ worker.name}}</h3>
        </div>
-
-       </div>
-
-       <button id="worker_id"  class="btn btn-primary delet_btn">Удалить</button>
-     </main>
+    </div>
+    <button id="worker_id"  class="btn btn-primary delet_btn">Удалить</button>
+</main>
 {% endblock %}
 {% block script  %}
 <script src="{% static 'js/api_worker.js' %}"></script>
