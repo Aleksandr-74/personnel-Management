@@ -1,13 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.http import request
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, FormView
 from rest_framework import generics
-from rest_framework.views import APIView
 
 from Management_app.forms import UserBrigade, UserWorker, UserObjects
 from Management_app.models import Worker, Brigade, Objectes
