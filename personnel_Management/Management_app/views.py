@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, FormView
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from Management_app.forms import UserBrigade, UserWorker, UserObjects
@@ -106,7 +107,7 @@ class DetailWorker(DetailView):
 
 
 @method_decorator(login_required, name='dispatch')
-class DatailBrigade(UpdateView, FormView):
+class DatailBrigade(UpdateView):
     """Информация о бригаде и обновления"""
 
     model = Brigade

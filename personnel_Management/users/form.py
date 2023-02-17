@@ -39,14 +39,15 @@ class AuthorizationForm(AuthenticationForm):
 
     username = forms.CharField(widget=forms.TextInput(
         attrs={
-            'class': 'form-control',
-            'placeholder': 'Ваш логин'})
+            'placeholder': 'Ваш логин',
+            'class': 'form-control'
+            })
     )
-
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={
-            'class': 'form-control',
-            'placeholder': 'Ваш пароль'})
+            'placeholder': 'Ваш пароль',
+            'class': 'form-control'
+            })
     )
 
     class Meta:

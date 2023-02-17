@@ -32,7 +32,7 @@ class Register(View):
         return render(request, self.temlate_name, context)
 
 
-class LoginUsers(LoginView, FormView):
+class LoginUsers(LoginView):
     template_name = "registration/login.html"
     form_class = AuthorizationForm
 
